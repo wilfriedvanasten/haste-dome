@@ -1,19 +1,19 @@
 module Haste.Dome (
-  buildNew,
-  buildIn,
-  apply,
-  append,
-  appendM,
-  appendNew,
-  insertBefore,
-  withQS,
-  withQS_,
+  eBuild,
+  eRunIn,
+  eApply,
+  eAppendChild,
+  eAppendChildM,
+  eAppendBuild,
+  eInsertChildBefore,
+  eWithQS,
+  eWithQS_,
   (=:),
   attr,
-  Haste.Dome.set,
+  eSet,
   newTextElem,
   newElem,
-  clear
+  eClearChildren
 ) where
 
 import Haste.DOM
@@ -30,9 +30,9 @@ type Dome m a = ReaderT Elem m a
 This function constructs a given template into a new bare
 element of the given type.
 -}
-{-# INLINABLE buildNew #-}
-buildNew :: MonadIO m => String -> Dome m a -> m Elem
-buildNew s t = newElem s >>= runReaderT (t >> ask)
+{-# INLINABLE eBuild #-}
+eBuild :: MonadIO m => String -> Dome m a -> m Elem
+eBuild s t = newElem s >>= runReaderT (t >> ask)
 
 {-
 Builds a template with an initial environment. There
@@ -45,62 +45,62 @@ This version of build does not return the environment,
 since it would be returned to the source of the element
 which means it is already there
 -}
-buildIn :: (MonadIO m, IsElem e) => e -> Dome m a -> m ()
-buildIn e t = runReaderT (void t) (elemOf e)
+eRunIn :: (MonadIO m, IsElem e) => e -> Dome m a -> m ()
+eRunIn e t = runReaderT (void t) (elemOf e)
 
 {-
 apply is a wrapper around (ask >>= (lift . f)) that is slightly more
-convenient to use. This is the bridge between BlazeTemplate
+convenient to use. This is the bridge between Dome and
 and Haste.DOM
 -}
-{-# INLINABLE apply #-}
-apply :: MonadIO m => (Elem -> m a) -> Dome m a
-apply f = ask >>= (lift . f)
+{-# INLINABLE eApply #-}
+eApply :: MonadIO m => (Elem -> m a) -> Dome m a
+eApply f = ask >>= (lift . f)
 
 {-
 append takes the given element and appends it to the environment element,
 The only reasonable way to do this is as a child
 -}
-{-# INLINABLE append #-}
-append :: (MonadIO m, IsElem e) => e -> Dome m ()
-append e = apply (`Haste.DOM.appendChild` elemOf e)
+{-# INLINABLE eAppendChild #-}
+eAppendChild :: (MonadIO m, IsElem e) => e -> Dome m ()
+eAppendChild e = eApply (`Haste.DOM.appendChild` elemOf e)
 
-{-# INLINABLE appendM #-}
-appendM :: (MonadIO m, IsElem e) => m e -> Dome m ()
-appendM e = lift e >>= append
+{-# INLINABLE eAppendChildM #-}
+eAppendChildM :: (MonadIO m, IsElem e) => m e -> Dome m ()
+eAppendChildM e = lift e >>= eAppendChild
 
-appendNew :: MonadIO m => String -> Dome m a -> Dome m ()
-appendNew s = appendM . buildNew s
+eAppendBuild :: MonadIO m => String -> Dome m a -> Dome m ()
+eAppendBuild s = eAppendChildM . eBuild s
 
 {-
 Insert before takes a function that gets a child element from the
 environment and than inserts the given element before that element.
 -}
-{-# INLINABLE insertBefore #-}
-insertBefore :: (MonadIO m, IsElem before, IsElem child) => (Elem -> m before) -> child -> Dome m ()
-insertBefore f e = do
-  b <- apply f
-  apply (\p -> insertChildBefore p b e)
+{-# INLINABLE eInsertChildBefore #-}
+eInsertChildBefore :: (MonadIO m, IsElem before, IsElem child) => (Elem -> m before) -> child -> Dome m ()
+eInsertChildBefore f e = do
+  b <- eApply f
+  eApply (\p -> insertChildBefore p b e)
 
 {-
 withQS executes the given action on the elements returned when the
 given query selector is run within the environment element. The
 results are gathered and returned as a list. See also withQS_
 -}
-{-# INLINABLE withQS #-}
-withQS :: MonadIO m => QuerySelector -> (Elem -> m a) -> Dome m [a]
-withQS qs f = do
-  es <- apply (`elemsByQS` qs)
+{-# INLINABLE eWithQS #-}
+eWithQS :: MonadIO m => QuerySelector -> (Elem -> m a) -> Dome m [a]
+eWithQS qs f = do
+  es <- eApply (`elemsByQS` qs)
   lift $ mapM f es
 
-{-# INLINABLE withQS_ #-}
-withQS_ :: MonadIO m => QuerySelector -> (Elem -> m a) ->  Dome m ()
-withQS_ qs f = do
-  es <- apply (`elemsByQS` qs)
+{-# INLINABLE eWithQS_ #-}
+eWithQS_ :: MonadIO m => QuerySelector -> (Elem -> m a) ->  Dome m ()
+eWithQS_ qs f = do
+  es <- eApply (`elemsByQS` qs)
   lift $ mapM_ f es
 
-set :: MonadIO m => [Attribute] -> Dome m ()
-set as = apply (`Haste.DOM.set` as)
+eSet :: MonadIO m => [Attribute] -> Dome m ()
+eSet as = eApply (`Haste.DOM.set` as)
 
-clear :: MonadIO m => Dome m ()
-clear = apply clearChildren
+eClearChildren :: MonadIO m => Dome m ()
+eClearChildren = eApply clearChildren
