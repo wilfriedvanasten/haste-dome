@@ -45,8 +45,8 @@ This version of build does not return the environment,
 since it would be returned to the source of the element
 which means it is already there
 -}
-buildIn :: MonadIO m => Elem -> Dome m a -> m ()
-buildIn e t = runReaderT (void t) e
+buildIn :: (MonadIO m, IsElem e) => e -> Dome m a -> m ()
+buildIn e t = runReaderT (void t) (elemOf e)
 
 {-
 apply is a wrapper around (ask >>= (lift . f)) that is slightly more
@@ -62,11 +62,11 @@ append takes the given element and appends it to the environment element,
 The only reasonable way to do this is as a child
 -}
 {-# INLINABLE append #-}
-append :: MonadIO m => Elem -> Dome m ()
-append e = apply (`Haste.DOM.appendChild` e)
+append :: (MonadIO m, IsElem e) => e -> Dome m ()
+append e = apply (`Haste.DOM.appendChild` elemOf e)
 
 {-# INLINABLE appendM #-}
-appendM :: MonadIO m => m Elem -> Dome m ()
+appendM :: (MonadIO m, IsElem e) => m e -> Dome m ()
 appendM e = lift e >>= append
 
 appendNew :: MonadIO m => String -> Dome m a -> Dome m ()
@@ -77,7 +77,7 @@ Insert before takes a function that gets a child element from the
 environment and than inserts the given element before that element.
 -}
 {-# INLINABLE insertBefore #-}
-insertBefore :: MonadIO m => (Elem -> m Elem) -> Elem -> Dome m ()
+insertBefore :: (MonadIO m, IsElem before, IsElem child) => (Elem -> m before) -> child -> Dome m ()
 insertBefore f e = do
   b <- apply f
   apply (\p -> insertChildBefore p b e)
