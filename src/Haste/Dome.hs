@@ -40,7 +40,7 @@ and Haste.DOM
 -}
 {-# INLINABLE eApply #-}
 eApply :: MonadIO m => (Elem -> m a) -> Dome m a
-eApply f = ask >>= (lift . f)
+eApply = (ask >>=) . (lift .)
 
 {-
 append takes the given element and appends it to the environment element,
