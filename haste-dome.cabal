@@ -3,38 +3,19 @@
 
 name:                haste-dome
 version:             0.1.0.0
-synopsis:            A thin wrapper around Haste.DOM that makes constructing
-                     elements in a top-down manner more comfortable
-description:         This library is a wrapper intended to be used in conjunction
-                     with Haste.DOM. It aims to make a top-down approach to
-                     constructing elements more comfortable.
+synopsis:            Top-down style wrapper for Haste.DOM
+description:
+  A thin wrapper around 'Haste.DOM' that aims to make element construction
+  and usage in a top-down (or hierarchical) approach more natural. This
+  library is meant to be used in addition to Haste.DOM and does not
+  enforce you to use a top-down approach at all. This is intentional.
+  The library was designed in such a way that escaping into Haste.DOM
+  style remains possible where necessary or more appropriate, however
+  you may need to do some manual lifting or use 'ask' directly or
+  something, but you will find that mostly "Haste.DOM" usage is seamless,
+  if you utilize the library properly.
 
-                     The problem with using standard 'Haste.DOM' directly in such
-                     an approach is that you need to capture the parent element
-                     in order to pass it to 'appendChild' and similar functions.
-                     This is an effect that has to again be applied to children
-                     that need children and so on, and so on.
-
-                     This library solves that by introducing the 'Dome a' type.
-                     This is just an alias for 'ReaderT Elem m a' that has the
-                     current hierarchical element as the environment. So for the
-                     family of 'eAppend' functions this is the parent. By only
-                     accessing the elements in the hierarchical implicit
-                     environment a top-down approach is more comfortable and
-                     natural.
-
-                     It should be noted that this library provides no new
-                     functionality. It mostly just calls 'eApply' on 'Haste.DOM'
-                     functions and eApply is just a clever combination of
-                     asking and lifting. These internals are available for users
-                     of the library as well.
-
-                     == The e's! They do nothing!
-                     You may have noticed that all 'Haste.Dome' functions are
-                     prefixed with an e. This is just a consistent application
-                     of simple name mangling to prevent name collision with
-                     'Haste.DOM'. This is important since this library is to be
-                     used in conjunction with and not instead of 'Haste.DOM'
+  For further information and examples, see the README
 license:             ISC
 license-file:        LICENSE
 author:              Wilfried van Asten
