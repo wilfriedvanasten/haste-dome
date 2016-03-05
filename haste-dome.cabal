@@ -5,17 +5,15 @@ name:                haste-dome
 version:             0.1.0.0
 synopsis:            Top-down style wrapper for Haste.DOM
 description:
-  A thin wrapper around 'Haste.DOM' that aims to make element construction
-  and usage in a top-down (or hierarchical) approach more natural. This
-  library is meant to be used in addition to Haste.DOM and does not
-  enforce you to use a top-down approach at all. This is intentional.
-  The library was designed in such a way that escaping into Haste.DOM
-  style remains possible where necessary or more appropriate, however
-  you may need to do some manual lifting or use 'ask' directly or
-  something, but you will find that mostly "Haste.DOM" usage is seamless,
-  if you utilize the library properly.
+  This library is a wrapper intended to be used in addition
+  to "Haste.DOM". It aims to make a top-down approach to
+  constructing elements more comfortable. A top-down
+  approach is more natural especially if you consider
+  that elements are just a representation of the HTML
+  DOM Tree.
 
   For further information and examples, see the README
+  and the documentation
 license:             ISC
 license-file:        LICENSE
 author:              Wilfried van Asten
