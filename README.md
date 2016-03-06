@@ -133,21 +133,25 @@ throughout the documentation. These are just friendly advice.
 Following them or at least keeping them in mind assures
 you get the most out of the top down approach. The library
 also contains functions that should be avoided in a mostly
-top-down approach to make the most out of the environment and to
-keep close coherence to the Haste.DOM API.
+top-down approach, to make the most out of the environment and to
+keep close coherence to the Haste.DOM API. While these functions
+can easily cause maintenance problems, they are powerful
+'primitives' (for lack of a better word). If you use them
+smartly you can construct safer variants that ensure the
+top-down approach's advantages are maintained.
 
 ## The e's! They do nothing!
 
 You may have noticed that all 'Haste.Dome' functions are
 prefixed with an e. This is just a consistent application
 of simple name mangling to prevent name collision with
-"Haste.DOM". Since most of the functions in this library
-also have a counterpart in "Haste.DOM", this makes using
+Haste.DOM. Since most of the functions in this library
+also have a counterpart in Haste.DOM, this makes using
 the library very easy especially if you are already
-familiar with Haste.DOM. Just stick an e (for environment
-or Dom__e__ if you have trouble remembering) in front of the
-relevant identifier and, in most cases, you are good to go!
-And that also works the other way around!
+familiar with Haste.DOM. Just stick an e (for environment,
+element or Dom**e** if you have trouble remembering) in
+front of the relevant identifier and, in most cases, you
+are good to go! And that also works the other way around!
 
 ### Why not use qualification?
 
