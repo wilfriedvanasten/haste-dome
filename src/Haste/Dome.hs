@@ -104,11 +104,11 @@ bind to directly feed the before element into this function.
 An example:
 
 @
-'eGetFirstChild' >>= (``eInsertChildBefore`` (..))
+'eGetFirstChild' >>= (\\before -> when (isJust before) ('eInsertChildBefore' (fromJust before) (..)))
 @
 
 This way you limit the scope of the before element
-to this function, making the template more resiliant
+to this function call, making the template more resiliant
 to changes. Note also the use of the semantic 'eGetFirstChild'
 rather than supplying an arbitrary element.
 -}
