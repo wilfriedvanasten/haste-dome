@@ -55,10 +55,10 @@ for:
 hello = do
   p <- newElem "div"
   set p [attr "class" =: "hello"]
-  appendChild p =<< $ do
+  appendChild p =<< (do
       p <- newElem "h1"
       appendChild p =<< newTextElem "Hello World"
-      pure p
+      pure p)
   pure p
 ```
 
