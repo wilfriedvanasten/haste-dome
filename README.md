@@ -110,7 +110,7 @@ not related to `p`, we need to somehow lift or pass the
 operation into the Dome expression. The context changes
 explicitly and visibly. Also note that we no longer
 need pure. This was necessary in the Haste.DOM approach,
-but, thanks to `ReaderT`, we can get that for free in
+but, thanks to `ReaderT`, we can ask for that in
 `eBuild`.
 
 Now there are likely situations in which it is unavoidable
@@ -120,11 +120,10 @@ at a (relatively) low cost. For the other (more tricky?) situations
 you can use all the low-level (While this library is certainly not
 on a much higher level) power Haste.DOM provides. I
 render low level (ffi) canvas stuff and than append the result of the
-computation to my element (Which is nested in anther element etc.) using this pattern.
-
-It should be noted that this library provides no new
-functionality. It mostly just calls `eApply` on Haste.DOM
-functions and `eApply` is just a combination of ask and lift.
+computation to my element (Which is nested in anther element etc.) using
+this pattern. It also means you can easily extract subexpressions
+into reusable top level elements (Since you avoid dependening on a
+specific context).
 
 ## Friendly advice
 
