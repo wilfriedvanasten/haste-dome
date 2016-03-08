@@ -1,7 +1,7 @@
 # Haste-Dome
 
-This library is a wrapper intended to be used in addition
-to Haste.DOM. It aims to make a top-down approach to
+This library is a wrapper around, but intended to be used in addition
+to, Haste.DOM. It aims to make a top-down approach to
 constructing elements more comfortable. A top-down
 approach is more natural especially if you consider
 that elements are just a representation of the HTML
