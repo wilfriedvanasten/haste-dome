@@ -122,7 +122,7 @@ on a much higher level) power Haste.DOM provides. I
 render low level (ffi) canvas stuff and than append the result of the
 computation to my element (Which is nested in anther element etc.) using
 this pattern. It also means you can easily extract subexpressions
-into reusable top level elements (Since you avoid dependening on a
+into reusable top level elements (Since you avoid depending on a
 specific context).
 
 ## Friendly advice
