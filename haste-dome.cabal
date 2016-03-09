@@ -20,8 +20,13 @@ maintainer:          sniperrifle2004@gmail.com
 -- copyright:
 category:            Web
 build-type:          Simple
+bug-reports:         https://github.com/wilfriedvanasten/haste-dome/issues
 -- extra-source-files:
 cabal-version:       >=1.10
+
+source-repository    head
+  location: https://github.com/wilfriedvanasten/haste-dome.git
+  type:     git
 
 library
   exposed-modules:     Haste.Dome
