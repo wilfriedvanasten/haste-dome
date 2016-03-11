@@ -29,7 +29,8 @@ source-repository    head
   type:     git
 
 library
-  exposed-modules:     Haste.Dome
+  exposed-modules:     Haste.Dome,
+                       Haste.Dome.JSString
   -- other-modules:
   -- other-extensions:
   build-depends:       base >=4.8 && <4.9,
